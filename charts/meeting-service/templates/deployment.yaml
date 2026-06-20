@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meeting-service
+  namespace: aeroinbox
+  labels:
+    app: meeting-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: meeting-service
+  template:
+    metadata:
+      labels:
+        app: meeting-service
+        azure.workload.identity/use: "true"
+    spec:
+      serviceAccountName: meeting-service-sa
+      containers:
+      - name: meeting-service
+        image: acraeroinboxprod.azurecr.io/meeting-service:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            cpu: 10m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 512Mi
+        envFrom:
+        - configMapRef:
+            name: aeroinbox-config
+        env:
+        - name: SERVICE_BUS_CONNECTION_STRING
+          valueFrom:
+            secretKeyRef:
+              name: meeting-service-secrets
+              key: service-bus-connection-string
+        volumeMounts:
+        - name: secrets-store
+          mountPath: /mnt/secrets-store
+          readOnly: true
+      volumes:
+      - name: secrets-store
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: aeroinbox-secret-provider

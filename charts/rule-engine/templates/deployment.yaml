@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rule-engine-service
+  namespace: aeroinbox
+  labels:
+    app: rule-engine-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rule-engine-service
+  template:
+    metadata:
+      labels:
+        app: rule-engine-service
+        azure.workload.identity/use: "true"
+    spec:
+      serviceAccountName: api-service-sa
+      containers:
+      - name: rule-engine-service
+        image: acraeroinboxprod.azurecr.io/rule-engine:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            cpu: 10m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        envFrom:
+        - configMapRef:
+            name: aeroinbox-config

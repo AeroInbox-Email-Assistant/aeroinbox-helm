@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ai-service-netpol
+  namespace: aeroinbox
+spec:
+  podSelector:
+    matchLabels:
+      app: ai-service
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: api-service
+    - podSelector:
+        matchLabels:
+          app: meeting-service
+    ports:
+    - protocol: TCP
+      port: 8000

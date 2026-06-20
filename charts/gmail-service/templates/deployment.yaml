@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gmail-service
+  namespace: aeroinbox
+  labels:
+    app: gmail-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gmail-service
+  template:
+    metadata:
+      labels:
+        app: gmail-service
+        azure.workload.identity/use: "true"
+    spec:
+      serviceAccountName: api-service-sa
+      containers:
+      - name: gmail-service
+        image: acraeroinboxprod.azurecr.io/gmail-service:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            cpu: 10m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 512Mi
+        envFrom:
+        - configMapRef:
+            name: aeroinbox-config
