@@ -8,7 +8,7 @@ data:
   REDIS_PORT: "10000"
   REDIS_SSL: "true"
   SERVICE_BUS_NAMESPACE: sb-aeroinbox-prod.servicebus.windows.net
-  SERVICE_BUS_QUEUE: meeting-reminders
+  SERVICE_BUS_QUEUE_NAME: meeting-reminders
   POSTGRES_PORT: "5432"
   AZURE_TENANT_ID: ea3249a3-251c-42d6-96a8-15bb78609c9f
   KEYVAULT_NAME: kv-aeroinbox-prod-a2ea18
