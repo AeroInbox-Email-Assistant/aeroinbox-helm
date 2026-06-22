@@ -48,6 +48,9 @@ spec:
           periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
+        env:
+        - name: DB_USER
+          value: id-aeroinbox-{{ replace "-service" "" .Chart.Name }}-prod
         envFrom:
         - configMapRef:
             name: aeroinbox-config
