@@ -51,6 +51,8 @@ spec:
         envFrom:
         - configMapRef:
             name: aeroinbox-config
+        - secretRef:
+            name: {{ .Chart.Name }}-secrets
         volumeMounts:
         - name: secrets-store
           mountPath: /mnt/secrets

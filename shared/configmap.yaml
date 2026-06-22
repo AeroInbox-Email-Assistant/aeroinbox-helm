@@ -12,6 +12,7 @@ data:
   POSTGRES_PORT: "5432"
   AZURE_TENANT_ID: ea3249a3-251c-42d6-96a8-15bb78609c9f
   KEYVAULT_NAME: kv-aeroinbox-prod-a2ea18
+  DB_AUTH_METHOD: "entra"
   APPINSIGHTS_ENABLED: "true"
   LOG_LEVEL: INFO
   ENVIRONMENT: production
