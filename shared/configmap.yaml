@@ -4,26 +4,14 @@ metadata:
   name: aeroinbox-config
   namespace: aeroinbox
 data:
-  AZURE_KEYVAULT_URL: "https://kv-aeroinbox-prod.vault.azure.net/"
-  FRONTEND_URL: "https://aeroinbox.qzz.io"
-  GOOGLE_REDIRECT_URI: "https://api.aeroinbox.qzz.io/auth/callback"
-  GMAIL_SERVICE_URL: "http://gmail-service-svc:8000"
-  AI_SERVICE_URL: "http://ai-service-svc:8000"
-  RULE_ENGINE_SERVICE_URL: "http://rule-engine-service-svc:8000"
-  MEETING_SERVICE_URL: "http://meeting-service-svc:8000"
-  DB_HOST: "pg-aeroinbox-prod.postgres.database.azure.com"
-  DB_PORT: "5432"
-  DB_USER: "id-aeroinbox-prod"
-  DB_NAME: "aeroinbox"
-  DB_SSL: "true"
-  DB_AUTH_METHOD: "entra"
-  REDIS_HOST: "127.0.0.1"
-  REDIS_PORT: "6379"
-  REDIS_SSL: "false"
-  REDIS_PASSWORD: ""
-  APPLICATIONINSIGHTS_CONNECTION_STRING: "InstrumentationKey=placeholder-key"
-  AI_PROVIDER: "azure_openai"
-  AZURE_OPENAI_ENDPOINT: "https://aeroinbox-ai-resource.openai.azure.com/"
-  AZURE_OPENAI_DEPLOYMENT_NAME: "gpt-4.1-mini"
-  AZURE_OPENAI_API_VERSION: "2024-02-15-preview"
-  SERVICE_BUS_QUEUE_NAME: "meeting-reminders"
+  REDIS_HOST: redis-aeroinbox-prod.redis.cache.windows.net
+  REDIS_PORT: "10000"
+  REDIS_SSL: "true"
+  SERVICE_BUS_NAMESPACE: sb-aeroinbox-prod.servicebus.windows.net
+  SERVICE_BUS_QUEUE: meeting-reminders
+  POSTGRES_PORT: "5432"
+  AZURE_TENANT_ID: ea3249a3-251c-42d6-96a8-15bb78609c9f
+  KEYVAULT_NAME: kv-aeroinbox-prod
+  APPINSIGHTS_ENABLED: "true"
+  LOG_LEVEL: INFO
+  ENVIRONMENT: production

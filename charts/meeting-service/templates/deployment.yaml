@@ -1,47 +1,59 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: meeting-service
-  namespace: aeroinbox
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
+  namespace: {{ .Values.global.namespace }}
   labels:
-    app: meeting-service
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: meeting-service
+      app.kubernetes.io/name: {{ .Chart.Name }}
   template:
     metadata:
+      annotations:
+        {{- toYaml .Values.podAnnotations | nindent 8 }}
       labels:
-        app: meeting-service
+        app.kubernetes.io/name: {{ .Chart.Name }}
+        app.kubernetes.io/part-of: aeroinbox
+        app.kubernetes.io/managed-by: Helm
         azure.workload.identity/use: "true"
     spec:
-      serviceAccountName: meeting-service-sa
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
       containers:
-      - name: meeting-service
-        image: acraeroinboxprod.azurecr.io/meeting-service:latest
-        imagePullPolicy: Always
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        securityContext:
+          allowPrivilegeEscalation: false
         ports:
         - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.livenessProbe.path }}
+            port: {{ .Values.livenessProbe.port }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.readinessProbe.path }}
+            port: {{ .Values.readinessProbe.port }}
+          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
         resources:
-          requests:
-            cpu: 10m
-            memory: 128Mi
-          limits:
-            cpu: 250m
-            memory: 512Mi
+          {{- toYaml .Values.resources | nindent 10 }}
         envFrom:
         - configMapRef:
             name: aeroinbox-config
-        env:
-        - name: SERVICE_BUS_CONNECTION_STRING
-          valueFrom:
-            secretKeyRef:
-              name: meeting-service-secrets
-              key: service-bus-connection-string
         volumeMounts:
         - name: secrets-store
-          mountPath: /mnt/secrets-store
+          mountPath: /mnt/secrets
           readOnly: true
       volumes:
       - name: secrets-store

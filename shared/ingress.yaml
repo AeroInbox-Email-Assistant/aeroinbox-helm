@@ -3,15 +3,29 @@ kind: Ingress
 metadata:
   name: aeroinbox-ingress
   namespace: aeroinbox
+  annotations:
+    kubernetes.io/ingress.class: azure/application-gateway
+    appgw.ingress.kubernetes.io/ssl-redirect: "true"
+    appgw.ingress.kubernetes.io/use-private-ip: "false"
 spec:
-  ingressClassName: webapprouting.kubernetes.azure.com
   rules:
-  - http:
+  - host: aeroinbox.qzz.io
+    http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: api-service-svc
+            name: aeroinbox-frontend
+            port:
+              number: 80
+  - host: api.aeroinbox.qzz.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: aeroinbox-api-service
             port:
               number: 8000

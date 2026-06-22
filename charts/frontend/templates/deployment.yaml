@@ -20,12 +20,10 @@ spec:
         app.kubernetes.io/name: {{ .Chart.Name }}
         app.kubernetes.io/part-of: aeroinbox
         app.kubernetes.io/managed-by: Helm
-        azure.workload.identity/use: "true"
     spec:
-      serviceAccountName: {{ .Values.serviceAccount.name }}
       securityContext:
         runAsNonRoot: true
-        runAsUser: 1000
+        runAsUser: 101
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -33,7 +31,7 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
         ports:
-        - containerPort: 8000
+        - containerPort: 3000
         livenessProbe:
           httpGet:
             path: {{ .Values.livenessProbe.path }}
@@ -48,17 +46,3 @@ spec:
           periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
-        envFrom:
-        - configMapRef:
-            name: aeroinbox-config
-        volumeMounts:
-        - name: secrets-store
-          mountPath: /mnt/secrets
-          readOnly: true
-      volumes:
-      - name: secrets-store
-        csi:
-          driver: secrets-store.csi.k8s.io
-          readOnly: true
-          volumeAttributes:
-            secretProviderClass: aeroinbox-secret-provider

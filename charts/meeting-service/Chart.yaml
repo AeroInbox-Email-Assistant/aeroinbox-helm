@@ -1,0 +1,5 @@
+apiVersion: v2
+name: meeting-service
+version: 1.0.0
+type: application
+description: AeroInbox Meeting Service Subchart

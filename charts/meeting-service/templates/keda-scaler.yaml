@@ -1,20 +1,37 @@
 apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}-auth
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  podIdentity:
+    provider: azure-workload
+---
+apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
-  name: meeting-service-scaler
-  namespace: aeroinbox
+  name: {{ .Release.Name }}-{{ .Chart.Name }}-scaler
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: meeting-service
+    name: {{ .Release.Name }}-{{ .Chart.Name }}
   minReplicaCount: 1
-  maxReplicaCount: 5
-  cooldownPeriod: 300
-  pollingInterval: 30
+  maxReplicaCount: 10
   triggers:
   - type: azure-servicebus
     metadata:
       queueName: meeting-reminders
+      namespace: sb-aeroinbox-prod
       messageCount: "5"
-      connectionFromEnv: SERVICE_BUS_CONNECTION_STRING
+    authenticationRef:
+      name: {{ .Release.Name }}-{{ .Chart.Name }}-auth

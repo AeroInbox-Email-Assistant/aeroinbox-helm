@@ -1,19 +1,23 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: rule-engine-netpol
-  namespace: aeroinbox
+  name: {{ .Release.Name }}-{{ .Chart.Name }}-netpol
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
 spec:
   podSelector:
     matchLabels:
-      app: rule-engine-service
+      app.kubernetes.io/name: {{ .Chart.Name }}
   policyTypes:
   - Ingress
   ingress:
   - from:
     - podSelector:
         matchLabels:
-          app: api-service
+          app.kubernetes.io/name: api-service
     ports:
     - protocol: TCP
       port: 8000

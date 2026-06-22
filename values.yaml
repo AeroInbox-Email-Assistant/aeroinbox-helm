@@ -1,0 +1,113 @@
+global:
+  registry: acraeroinboxprod.azurecr.io
+  imagePrefix: aeroinbox
+  namespace: aeroinbox
+  environment: production
+  tenantId: ea3249a3-251c-42d6-96a8-15bb78609c9f
+  keyVaultName: kv-aeroinbox-prod
+
+api-service:
+  image:
+    repository: acraeroinboxprod.azurecr.io/aeroinbox/api-service
+    tag: latest
+    pullPolicy: Always
+  replicaCount: 2
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  serviceAccount:
+    name: api-sa
+  service:
+    port: 8000
+
+gmail-service:
+  image:
+    repository: acraeroinboxprod.azurecr.io/aeroinbox/gmail-service
+    tag: latest
+    pullPolicy: Always
+  replicaCount: 2
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  serviceAccount:
+    name: gmail-sa
+  service:
+    port: 8000
+
+ai-service:
+  image:
+    repository: acraeroinboxprod.azurecr.io/aeroinbox/ai-service
+    tag: latest
+    pullPolicy: Always
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+  serviceAccount:
+    name: ai-sa
+  service:
+    port: 8000
+
+rule-engine:
+  image:
+    repository: acraeroinboxprod.azurecr.io/aeroinbox/rule-engine
+    tag: latest
+    pullPolicy: Always
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  serviceAccount:
+    name: rule-engine-sa
+  service:
+    port: 8000
+
+meeting-service:
+  image:
+    repository: acraeroinboxprod.azurecr.io/aeroinbox/meeting-service
+    tag: latest
+    pullPolicy: Always
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  serviceAccount:
+    name: meeting-sa
+  service:
+    port: 8000
+
+frontend:
+  image:
+    repository: acraeroinboxprod.azurecr.io/aeroinbox/frontend
+    tag: latest
+    pullPolicy: Always
+  replicaCount: 2
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+  service:
+    port: 80

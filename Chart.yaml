@@ -1,0 +1,25 @@
+apiVersion: v2
+name: aeroinbox
+type: application
+version: 1.0.0
+appVersion: 1.0.0
+description: AeroInbox AI Email Assistant Umbrella Chart
+dependencies:
+  - name: api-service
+    version: 1.0.0
+    repository: "file://charts/api-service"
+  - name: gmail-service
+    version: 1.0.0
+    repository: "file://charts/gmail-service"
+  - name: ai-service
+    version: 1.0.0
+    repository: "file://charts/ai-service"
+  - name: rule-engine
+    version: 1.0.0
+    repository: "file://charts/rule-engine"
+  - name: meeting-service
+    version: 1.0.0
+    repository: "file://charts/meeting-service"
+  - name: frontend
+    version: 1.0.0
+    repository: "file://charts/frontend"

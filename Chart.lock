@@ -1,0 +1,21 @@
+dependencies:
+- name: api-service
+  repository: file://charts/api-service
+  version: 1.0.0
+- name: gmail-service
+  repository: file://charts/gmail-service
+  version: 1.0.0
+- name: ai-service
+  repository: file://charts/ai-service
+  version: 1.0.0
+- name: rule-engine
+  repository: file://charts/rule-engine
+  version: 1.0.0
+- name: meeting-service
+  repository: file://charts/meeting-service
+  version: 1.0.0
+- name: frontend
+  repository: file://charts/frontend
+  version: 1.0.0
+digest: sha256:ddf65e792ade5efbefdbcdf630dceb3cbacbea5a624997bed52f3823cca26587
+generated: "2026-06-22T19:47:24.8044308+05:30"

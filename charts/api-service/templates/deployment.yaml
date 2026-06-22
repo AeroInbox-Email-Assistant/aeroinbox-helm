@@ -1,46 +1,64 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-service
-  namespace: aeroinbox
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
+  namespace: {{ .Values.global.namespace }}
   labels:
-    app: api-service
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: api-service
+      app.kubernetes.io/name: {{ .Chart.Name }}
   template:
     metadata:
+      annotations:
+        {{- toYaml .Values.podAnnotations | nindent 8 }}
       labels:
-        app: api-service
+        app.kubernetes.io/name: {{ .Chart.Name }}
+        app.kubernetes.io/part-of: aeroinbox
+        app.kubernetes.io/managed-by: Helm
         azure.workload.identity/use: "true"
     spec:
-      serviceAccountName: api-service-sa
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
       containers:
-      - name: api-service
-        image: acraeroinboxprod.azurecr.io/api-service:latest
-        imagePullPolicy: Always
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        securityContext:
+          allowPrivilegeEscalation: false
         ports:
         - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.livenessProbe.path }}
+            port: {{ .Values.livenessProbe.port }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.readinessProbe.path }}
+            port: {{ .Values.readinessProbe.port }}
+          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
         resources:
-          requests:
-            cpu: 10m
-            memory: 128Mi
-          limits:
-            cpu: 250m
-            memory: 512Mi
+          {{- toYaml .Values.resources | nindent 10 }}
         envFrom:
         - configMapRef:
             name: aeroinbox-config
-      - name: redis-sidecar
-        image: redis:alpine
-        ports:
-        - containerPort: 6379
-        resources:
-          requests:
-            cpu: 10m
-            memory: 64Mi
-          limits:
-            cpu: 50m
-            memory: 128Mi
+        volumeMounts:
+        - name: secrets-store
+          mountPath: /mnt/secrets
+          readOnly: true
+      volumes:
+      - name: secrets-store
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: aeroinbox-secret-provider

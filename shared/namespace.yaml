@@ -3,6 +3,5 @@ kind: Namespace
 metadata:
   name: aeroinbox
   labels:
-    name: aeroinbox
-    environment: prod
-    managed-by: gitops
+    app.kubernetes.io/managed-by: Helm
+    environment: production

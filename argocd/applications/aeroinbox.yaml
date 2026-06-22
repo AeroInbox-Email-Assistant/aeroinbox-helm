@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: aeroinbox
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/AeroInbox-Email-Assistant/aeroinbox-helm
+    targetRevision: main
+    path: .
+    helm:
+      valueFiles:
+        - values.yaml
+        - environments/production/values.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: aeroinbox
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - ServerSideApply=true

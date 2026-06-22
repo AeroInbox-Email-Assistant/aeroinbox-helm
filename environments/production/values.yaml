@@ -1,0 +1,29 @@
+api-service:
+  image:
+    tag: latest
+  replicaCount: 2
+
+gmail-service:
+  image:
+    tag: latest
+  replicaCount: 2
+
+ai-service:
+  image:
+    tag: latest
+  replicaCount: 1
+
+rule-engine:
+  image:
+    tag: latest
+  replicaCount: 1
+
+meeting-service:
+  image:
+    tag: latest
+  replicaCount: 1
+
+frontend:
+  image:
+    tag: latest
+  replicaCount: 2
