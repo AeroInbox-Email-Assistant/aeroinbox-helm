@@ -25,3 +25,4 @@ data:
   AI_SERVICE_URL: http://aeroinbox-ai-service:8000
   RULE_ENGINE_SERVICE_URL: http://aeroinbox-rule-engine:8000
   MEETING_SERVICE_URL: http://aeroinbox-meeting-service:8000
+  AI_PROVIDER: azure_openai
