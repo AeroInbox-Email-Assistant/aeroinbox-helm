@@ -21,15 +21,10 @@ spec:
         app.kubernetes.io/part-of: aeroinbox
         app.kubernetes.io/managed-by: Helm
     spec:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 101
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        securityContext:
-          allowPrivilegeEscalation: false
         ports:
         - containerPort: 8080
         livenessProbe:
