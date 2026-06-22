@@ -21,3 +21,7 @@ data:
   ENVIRONMENT: production
   FRONTEND_URL: https://aeroinbox.qzz.io
   GOOGLE_REDIRECT_URI: https://api.aeroinbox.qzz.io/auth/callback
+  GMAIL_SERVICE_URL: http://aeroinbox-gmail-service:8000
+  AI_SERVICE_URL: http://aeroinbox-ai-service:8000
+  RULE_ENGINE_SERVICE_URL: http://aeroinbox-rule-engine:8000
+  MEETING_SERVICE_URL: http://aeroinbox-meeting-service:8000
