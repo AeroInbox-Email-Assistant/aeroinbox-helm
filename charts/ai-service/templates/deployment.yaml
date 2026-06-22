@@ -51,6 +51,8 @@ spec:
         env:
         - name: DB_USER
           value: id-aeroinbox-{{ replace "-service" "" .Chart.Name }}-prod
+        - name: CACHE_DATABASE_PATH
+          value: /tmp/ai_cache.db
         envFrom:
         - configMapRef:
             name: aeroinbox-config

@@ -46,6 +46,7 @@ spec:
             port: {{ .Values.readinessProbe.port }}
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+          timeoutSeconds: 5
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
         env:
