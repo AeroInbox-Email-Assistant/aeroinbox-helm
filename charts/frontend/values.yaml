@@ -8,7 +8,7 @@ replicaCount: 1
 service:
   type: ClusterIP
   port: 80
-  targetPort: 3000
+  targetPort: 8080
 
 resources:
   requests:
@@ -20,17 +20,17 @@ resources:
 
 livenessProbe:
   path: /
-  port: 3000
+  port: 8080
   initialDelaySeconds: 15
   periodSeconds: 20
 
 readinessProbe:
   path: /
-  port: 3000
+  port: 8080
   initialDelaySeconds: 10
   periodSeconds: 10
 
 podAnnotations:
   prometheus.io/scrape: "true"
   prometheus.io/path: /metrics
-  prometheus.io/port: "3000"
+  prometheus.io/port: "8080"

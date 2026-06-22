@@ -31,17 +31,17 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
         ports:
-        - containerPort: 3000
+        - containerPort: 8080
         livenessProbe:
           httpGet:
             path: {{ .Values.livenessProbe.path }}
-            port: {{ .Values.livenessProbe.port }}
+            port: 8080
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
         readinessProbe:
           httpGet:
             path: {{ .Values.readinessProbe.path }}
-            port: {{ .Values.readinessProbe.port }}
+            port: 8080
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
         resources:
