@@ -14,6 +14,7 @@ data:
   KEYVAULT_NAME: kv-aeroinbox-prod-a2ea18
   AZURE_KEYVAULT_URL: https://kv-aeroinbox-prod-a2ea18.vault.azure.net/
   AZURE_KEY_VAULT_URI: https://kv-aeroinbox-prod-a2ea18.vault.azure.net/
+  AZURE_OPENAI_ENDPOINT: https://aeroinbox-ai-resource.cognitiveservices.azure.com/
   DB_AUTH_METHOD: "entra"
   APPINSIGHTS_ENABLED: "true"
   LOG_LEVEL: INFO
