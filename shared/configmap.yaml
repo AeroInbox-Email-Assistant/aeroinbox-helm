@@ -4,7 +4,7 @@ metadata:
   name: aeroinbox-config
   namespace: aeroinbox
 data:
-  REDIS_HOST: redis-aeroinbox-prod.redis.cache.windows.net
+  REDIS_HOST: redis-aeroinbox-prod.centralindia.redis.azure.net
   REDIS_PORT: "10000"
   REDIS_SSL: "true"
   SERVICE_BUS_NAMESPACE: sb-aeroinbox-prod.servicebus.windows.net
