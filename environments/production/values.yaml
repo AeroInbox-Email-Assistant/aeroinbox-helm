@@ -1,29 +1,24 @@
 api-service:
   image:
-    tag: latest
+    tag: 0baa522980f8cfaed219d3cb997eb14ad14a2382
   replicaCount: 2
-
 gmail-service:
   image:
-    tag: latest
+    tag: 0baa522980f8cfaed219d3cb997eb14ad14a2382
   replicaCount: 2
-
 ai-service:
   image:
-    tag: latest
+    tag: 0baa522980f8cfaed219d3cb997eb14ad14a2382
   replicaCount: 1
-
 rule-engine:
   image:
-    tag: latest
+    tag: 0baa522980f8cfaed219d3cb997eb14ad14a2382
   replicaCount: 1
-
 meeting-service:
   image:
-    tag: latest
+    tag: 0baa522980f8cfaed219d3cb997eb14ad14a2382
   replicaCount: 1
-
 frontend:
   image:
-    tag: latest
+    tag: 0baa522980f8cfaed219d3cb997eb14ad14a2382
   replicaCount: 2
