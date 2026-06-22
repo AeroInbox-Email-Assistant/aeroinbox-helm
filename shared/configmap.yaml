@@ -19,3 +19,5 @@ data:
   APPINSIGHTS_ENABLED: "true"
   LOG_LEVEL: INFO
   ENVIRONMENT: production
+  FRONTEND_URL: https://aeroinbox.qzz.io
+  GOOGLE_REDIRECT_URI: https://api.aeroinbox.qzz.io/auth/callback
