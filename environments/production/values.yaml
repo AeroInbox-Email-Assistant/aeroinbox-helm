@@ -1,24 +1,24 @@
 api-service:
   image:
-    tag: 649dd12cd436ce4a15ce70dbfbeddaa316fac8f0
+    tag: 177be2b8c4cdc9c17171f5ec467e3f42947119be
   replicaCount: 2
 gmail-service:
   image:
-    tag: 649dd12cd436ce4a15ce70dbfbeddaa316fac8f0
+    tag: 177be2b8c4cdc9c17171f5ec467e3f42947119be
   replicaCount: 2
 ai-service:
   image:
-    tag: 649dd12cd436ce4a15ce70dbfbeddaa316fac8f0
+    tag: 177be2b8c4cdc9c17171f5ec467e3f42947119be
   replicaCount: 1
 rule-engine:
   image:
-    tag: 649dd12cd436ce4a15ce70dbfbeddaa316fac8f0
+    tag: 177be2b8c4cdc9c17171f5ec467e3f42947119be
   replicaCount: 1
 meeting-service:
   image:
-    tag: 649dd12cd436ce4a15ce70dbfbeddaa316fac8f0
+    tag: 177be2b8c4cdc9c17171f5ec467e3f42947119be
   replicaCount: 1
 frontend:
   image:
-    tag: 649dd12cd436ce4a15ce70dbfbeddaa316fac8f0
+    tag: 177be2b8c4cdc9c17171f5ec467e3f42947119be
   replicaCount: 2
