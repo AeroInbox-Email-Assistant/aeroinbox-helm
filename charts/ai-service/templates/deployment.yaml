@@ -61,4 +61,4 @@ spec:
           driver: secrets-store.csi.k8s.io
           readOnly: true
           volumeAttributes:
-            secretProviderClass: aeroinbox-secret-provider
+            secretProviderClass: ai-secret-provider
