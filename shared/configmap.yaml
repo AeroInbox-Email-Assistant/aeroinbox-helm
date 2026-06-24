@@ -11,9 +11,9 @@ data:
   SERVICE_BUS_QUEUE_NAME: meeting-reminders
   POSTGRES_PORT: "5432"
   AZURE_TENANT_ID: ea3249a3-251c-42d6-96a8-15bb78609c9f
-  KEYVAULT_NAME: kv-aeroinbox-prod-a2ea18
-  AZURE_KEYVAULT_URL: https://kv-aeroinbox-prod-a2ea18.vault.azure.net/
-  AZURE_KEY_VAULT_URI: https://kv-aeroinbox-prod-a2ea18.vault.azure.net/
+  KEYVAULT_NAME: kv-aeroinbox-prod-f6e290
+  AZURE_KEYVAULT_URL: https://kv-aeroinbox-prod-f6e290.vault.azure.net/
+  AZURE_KEY_VAULT_URI: https://kv-aeroinbox-prod-f6e290.vault.azure.net/
   AZURE_OPENAI_ENDPOINT: https://aeroinbox-ai-resource.cognitiveservices.azure.com/
   AZURE_OPENAI_DEPLOYMENT_NAME: gpt-4.1-mini
   DB_AUTH_METHOD: "entra"

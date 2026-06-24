@@ -4,7 +4,7 @@ global:
   namespace: aeroinbox
   environment: production
   tenantId: ea3249a3-251c-42d6-96a8-15bb78609c9f
-  keyVaultName: kv-aeroinbox-prod-a2ea18
+  keyVaultName: kv-aeroinbox-prod-f6e290
 
 api-service:
   image:
