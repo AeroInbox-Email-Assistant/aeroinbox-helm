@@ -3,3 +3,4 @@ Thumbs.db
 *.tmp
 .idea/
 .vscode/
+graphify-out/
