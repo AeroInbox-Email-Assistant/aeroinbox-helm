@@ -1,0 +1,1332 @@
+---
+# Source: aeroinbox/charts/ai-service/templates/networkpolicy.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: aeroinbox-ai-service-netpol
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: ai-service
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: ai-service
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: api-service
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: meeting-service
+    ports:
+    - protocol: TCP
+      port: 8000
+
+---
+# Source: aeroinbox/charts/api-service/templates/networkpolicy.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: aeroinbox-api-service-netpol
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: api-service
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: api-service
+  policyTypes:
+  - Ingress
+  ingress:
+  - {}
+
+---
+# Source: aeroinbox/charts/frontend/templates/networkpolicy.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: aeroinbox-frontend-netpol
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: frontend
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: api-service
+    ports:
+    - protocol: TCP
+      port: 8000
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+
+---
+# Source: aeroinbox/charts/gmail-service/templates/networkpolicy.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: aeroinbox-gmail-service-netpol
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: gmail-service
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: gmail-service
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: api-service
+    ports:
+    - protocol: TCP
+      port: 8000
+
+---
+# Source: aeroinbox/charts/meeting-service/templates/networkpolicy.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: aeroinbox-meeting-service-netpol
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: meeting-service
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: meeting-service
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: api-service
+    ports:
+    - protocol: TCP
+      port: 8000
+
+---
+# Source: aeroinbox/charts/rule-engine/templates/networkpolicy.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: aeroinbox-rule-engine-netpol
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: rule-engine
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: rule-engine
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: api-service
+    ports:
+    - protocol: TCP
+      port: 8000
+
+---
+# Source: aeroinbox/charts/shared/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: api-sa
+  namespace: aeroinbox
+  annotations:
+    azure.workload.identity/client-id: 5f138b29-32bf-49af-9460-0a70f0f03a5a
+  labels:
+    azure.workload.identity/use: "true"
+---
+# Source: aeroinbox/charts/shared/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gmail-sa
+  namespace: aeroinbox
+  annotations:
+    azure.workload.identity/client-id: 773604a5-ec45-4e43-856d-866d29d2431e
+  labels:
+    azure.workload.identity/use: "true"
+---
+# Source: aeroinbox/charts/shared/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ai-sa
+  namespace: aeroinbox
+  annotations:
+    azure.workload.identity/client-id: 75b81433-0bb0-44fa-ac85-164ba788156b
+  labels:
+    azure.workload.identity/use: "true"
+---
+# Source: aeroinbox/charts/shared/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: rule-engine-sa
+  namespace: aeroinbox
+  annotations:
+    azure.workload.identity/client-id: 326f5f81-feb5-42f0-b0e9-3666a0081ab9
+  labels:
+    azure.workload.identity/use: "true"
+---
+# Source: aeroinbox/charts/shared/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: meeting-sa
+  namespace: aeroinbox
+  annotations:
+    azure.workload.identity/client-id: d9194bc3-51b7-43f4-b7d3-711f1869c075
+  labels:
+    azure.workload.identity/use: "true"
+
+---
+# Source: aeroinbox/charts/shared/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aeroinbox-config
+  namespace: aeroinbox
+data:
+  REDIS_HOST: redis-aeroinbox-prod.centralindia.redis.azure.net
+  REDIS_PORT: "10000"
+  REDIS_SSL: "true"
+  SERVICE_BUS_NAMESPACE: sb-aeroinbox-prod.servicebus.windows.net
+  SERVICE_BUS_QUEUE_NAME: meeting-reminders
+  POSTGRES_PORT: "5432"
+  AZURE_TENANT_ID: "ea3249a3-251c-42d6-96a8-15bb78609c9f"
+  KEYVAULT_NAME: "kv-aeroinbox-prod-f6e290"
+  AZURE_KEYVAULT_URL: "https://kv-aeroinbox-prod-f6e290.vault.azure.net/"
+  AZURE_KEY_VAULT_URI: "https://kv-aeroinbox-prod-f6e290.vault.azure.net/"
+  AZURE_OPENAI_ENDPOINT: https://aeroinbox-ai-resource.cognitiveservices.azure.com/
+  AZURE_OPENAI_DEPLOYMENT_NAME: gpt-4.1-mini
+  DB_AUTH_METHOD: "entra"
+  APPINSIGHTS_ENABLED: "true"
+  LOG_LEVEL: INFO
+  ENVIRONMENT: "production"
+  FRONTEND_URL: https://aeroinbox.qzz.io
+  GOOGLE_REDIRECT_URI: https://api.aeroinbox.qzz.io/auth/callback
+  GMAIL_SERVICE_URL: http://aeroinbox-gmail-service:8000
+  AI_SERVICE_URL: http://aeroinbox-ai-service:8000
+  RULE_ENGINE_SERVICE_URL: http://aeroinbox-rule-engine:8000
+  MEETING_SERVICE_URL: http://aeroinbox-meeting-service:8000
+  AI_PROVIDER: azure_openai
+
+---
+# Source: aeroinbox/charts/ai-service/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: aeroinbox-ai-service
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: ai-service
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+  selector:
+    app.kubernetes.io/name: ai-service
+
+---
+# Source: aeroinbox/charts/api-service/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: aeroinbox-api-service
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: api-service
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+  selector:
+    app.kubernetes.io/name: api-service
+
+---
+# Source: aeroinbox/charts/frontend/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: aeroinbox-frontend
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app.kubernetes.io/name: frontend
+
+---
+# Source: aeroinbox/charts/gmail-service/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: aeroinbox-gmail-service
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: gmail-service
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+  selector:
+    app.kubernetes.io/name: gmail-service
+
+---
+# Source: aeroinbox/charts/meeting-service/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: aeroinbox-meeting-service
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: meeting-service
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+  selector:
+    app.kubernetes.io/name: meeting-service
+
+---
+# Source: aeroinbox/charts/rule-engine/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: aeroinbox-rule-engine
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: rule-engine
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+  selector:
+    app.kubernetes.io/name: rule-engine
+
+---
+# Source: aeroinbox/charts/ai-service/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aeroinbox-ai-service
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: ai-service
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ai-service
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8000"
+        prometheus.io/scrape: "true"
+      labels:
+        app.kubernetes.io/name: ai-service
+        app.kubernetes.io/part-of: aeroinbox
+        app.kubernetes.io/managed-by: Helm
+        azure.workload.identity/use: "true"
+    spec:
+      serviceAccountName: ai-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+      - name: ai-service
+        image: "acraeroinboxprod.azurecr.io/aeroinbox/ai-service:latest"
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+        ports:
+        - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+          requests:
+            cpu: 200m
+            memory: 256Mi
+        env:
+        - name: DB_USER
+          value: id-aeroinbox-ai-prod
+        - name: CACHE_DATABASE_PATH
+          value: /tmp/ai_cache.db
+        envFrom:
+        - configMapRef:
+            name: aeroinbox-config
+        - secretRef:
+            name: ai-service-secrets
+        volumeMounts:
+        - name: secrets-store
+          mountPath: /mnt/secrets
+          readOnly: true
+      volumes:
+      - name: secrets-store
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: ai-secret-provider
+
+---
+# Source: aeroinbox/charts/api-service/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aeroinbox-api-service
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: api-service
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: api-service
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8000"
+        prometheus.io/scrape: "true"
+      labels:
+        app.kubernetes.io/name: api-service
+        app.kubernetes.io/part-of: aeroinbox
+        app.kubernetes.io/managed-by: Helm
+        azure.workload.identity/use: "true"
+    spec:
+      serviceAccountName: api-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+      - name: api-service
+        image: "acraeroinboxprod.azurecr.io/aeroinbox/api-service:latest"
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+        ports:
+        - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        env:
+        - name: DB_USER
+          value: id-aeroinbox-api-prod
+        envFrom:
+        - configMapRef:
+            name: aeroinbox-config
+        - secretRef:
+            name: api-service-secrets
+        volumeMounts:
+        - name: secrets-store
+          mountPath: /mnt/secrets
+          readOnly: true
+      volumes:
+      - name: secrets-store
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: api-secret-provider
+
+---
+# Source: aeroinbox/charts/frontend/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aeroinbox-frontend
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: frontend
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8080"
+        prometheus.io/scrape: "true"
+      labels:
+        app.kubernetes.io/name: frontend
+        app.kubernetes.io/part-of: aeroinbox
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      containers:
+      - name: frontend
+        image: "acraeroinboxprod.azurecr.io/aeroinbox/frontend:latest"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        resources:
+          limits:
+            cpu: 200m
+            memory: 256Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+
+---
+# Source: aeroinbox/charts/gmail-service/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aeroinbox-gmail-service
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: gmail-service
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gmail-service
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8000"
+        prometheus.io/scrape: "true"
+      labels:
+        app.kubernetes.io/name: gmail-service
+        app.kubernetes.io/part-of: aeroinbox
+        app.kubernetes.io/managed-by: Helm
+        azure.workload.identity/use: "true"
+    spec:
+      serviceAccountName: gmail-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+      - name: gmail-service
+        image: "acraeroinboxprod.azurecr.io/aeroinbox/gmail-service:latest"
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+        ports:
+        - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        env:
+        - name: DB_USER
+          value: id-aeroinbox-gmail-prod
+        envFrom:
+        - configMapRef:
+            name: aeroinbox-config
+        - secretRef:
+            name: gmail-service-secrets
+        volumeMounts:
+        - name: secrets-store
+          mountPath: /mnt/secrets
+          readOnly: true
+      volumes:
+      - name: secrets-store
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: gmail-secret-provider
+
+---
+# Source: aeroinbox/charts/meeting-service/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aeroinbox-meeting-service
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: meeting-service
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: meeting-service
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8000"
+        prometheus.io/scrape: "true"
+      labels:
+        app.kubernetes.io/name: meeting-service
+        app.kubernetes.io/part-of: aeroinbox
+        app.kubernetes.io/managed-by: Helm
+        azure.workload.identity/use: "true"
+    spec:
+      serviceAccountName: meeting-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+      - name: meeting-service
+        image: "acraeroinboxprod.azurecr.io/aeroinbox/meeting-service:latest"
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+        ports:
+        - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        env:
+        - name: DB_USER
+          value: id-aeroinbox-meeting-prod
+        envFrom:
+        - configMapRef:
+            name: aeroinbox-config
+        - secretRef:
+            name: meeting-service-secrets
+        volumeMounts:
+        - name: secrets-store
+          mountPath: /mnt/secrets
+          readOnly: true
+      volumes:
+      - name: secrets-store
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: meeting-secret-provider
+
+---
+# Source: aeroinbox/charts/rule-engine/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aeroinbox-rule-engine
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: rule-engine
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: rule-engine
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8000"
+        prometheus.io/scrape: "true"
+      labels:
+        app.kubernetes.io/name: rule-engine
+        app.kubernetes.io/part-of: aeroinbox
+        app.kubernetes.io/managed-by: Helm
+        azure.workload.identity/use: "true"
+    spec:
+      serviceAccountName: rule-engine-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+      - name: rule-engine
+        image: "acraeroinboxprod.azurecr.io/aeroinbox/rule-engine:latest"
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+        ports:
+        - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        env:
+        - name: DB_USER
+          value: id-aeroinbox-rule-engine-prod
+        envFrom:
+        - configMapRef:
+            name: aeroinbox-config
+        - secretRef:
+            name: rule-engine-secrets
+        volumeMounts:
+        - name: secrets-store
+          mountPath: /mnt/secrets
+          readOnly: true
+      volumes:
+      - name: secrets-store
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: rule-engine-secret-provider
+
+---
+# Source: aeroinbox/charts/api-service/templates/hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: aeroinbox-api-service-hpa
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: api-service
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: aeroinbox-api-service
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+
+---
+# Source: aeroinbox/charts/gmail-service/templates/hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: aeroinbox-gmail-service-hpa
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: gmail-service
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: aeroinbox-gmail-service
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+
+---
+# Source: aeroinbox/charts/shared/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aeroinbox-ingress
+  namespace: aeroinbox
+  annotations:
+    appgw.ingress.kubernetes.io/use-private-ip: "false"
+spec:
+  ingressClassName: azure-application-gateway
+  rules:
+  - host: aeroinbox.qzz.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: aeroinbox-frontend
+            port:
+              number: 80
+  - host: api.aeroinbox.qzz.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: aeroinbox-api-service
+            port:
+              number: 8000
+
+---
+# Source: aeroinbox/charts/meeting-service/templates/keda-scaler.yaml
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: aeroinbox-meeting-service-scaler
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: meeting-service
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: aeroinbox-meeting-service
+  minReplicaCount: 1
+  maxReplicaCount: 10
+  triggers:
+  - type: azure-servicebus
+    metadata:
+      queueName: meeting-reminders
+      namespace: sb-aeroinbox-prod
+      messageCount: "5"
+    authenticationRef:
+      name: aeroinbox-meeting-service-auth
+
+---
+# Source: aeroinbox/charts/shared/templates/secretproviderclass.yaml
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: api-secret-provider
+  namespace: aeroinbox
+spec:
+  provider: azure
+  parameters:
+    keyvaultName: "kv-aeroinbox-prod-f6e290"
+    tenantId: "ea3249a3-251c-42d6-96a8-15bb78609c9f"
+    usePodIdentity: "false"
+    useVMManagedIdentity: "false"
+    clientID: "5f138b29-32bf-49af-9460-0a70f0f03a5a"
+    objects: |
+      array:
+        - |
+          objectName: redis-access-key
+          objectType: secret
+        - |
+          objectName: jwt-secret
+          objectType: secret
+        - |
+          objectName: encryption-key
+          objectType: secret
+        - |
+          objectName: postgres-host
+          objectType: secret
+        - |
+          objectName: postgres-db-name
+          objectType: secret
+        - |
+          objectName: postgres-admin-username
+          objectType: secret
+        - |
+          objectName: application-insights-connection-string
+          objectType: secret
+        - |
+          objectName: google-client-id
+          objectType: secret
+        - |
+          objectName: google-client-secret
+          objectType: secret
+        - |
+          objectName: azure-openai-api-key
+          objectType: secret
+        - |
+          objectName: service-bus-connection-string
+          objectType: secret
+  secretObjects:
+    - secretName: api-service-secrets
+      type: Opaque
+      data:
+        - objectName: redis-access-key
+          key: REDIS_PASSWORD
+        - objectName: jwt-secret
+          key: JWT_SECRET
+        - objectName: encryption-key
+          key: ENCRYPTION_KEY
+        - objectName: postgres-host
+          key: DB_HOST
+        - objectName: postgres-db-name
+          key: DB_NAME
+        - objectName: postgres-admin-username
+          key: DB_USER
+        - objectName: application-insights-connection-string
+          key: APPLICATIONINSIGHTS_CONNECTION_STRING
+        - objectName: google-client-id
+          key: GOOGLE_CLIENT_ID
+        - objectName: google-client-secret
+          key: GOOGLE_CLIENT_SECRET
+        - objectName: azure-openai-api-key
+          key: AZURE_OPENAI_API_KEY
+        - objectName: service-bus-connection-string
+          key: SERVICE_BUS_CONNECTION_STRING
+---
+# Source: aeroinbox/charts/shared/templates/secretproviderclass.yaml
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: gmail-secret-provider
+  namespace: aeroinbox
+spec:
+  provider: azure
+  parameters:
+    keyvaultName: "kv-aeroinbox-prod-f6e290"
+    tenantId: "ea3249a3-251c-42d6-96a8-15bb78609c9f"
+    usePodIdentity: "false"
+    useVMManagedIdentity: "false"
+    clientID: "773604a5-ec45-4e43-856d-866d29d2431e"
+    objects: |
+      array:
+        - |
+          objectName: redis-access-key
+          objectType: secret
+        - |
+          objectName: jwt-secret
+          objectType: secret
+        - |
+          objectName: encryption-key
+          objectType: secret
+        - |
+          objectName: postgres-host
+          objectType: secret
+        - |
+          objectName: postgres-db-name
+          objectType: secret
+        - |
+          objectName: postgres-admin-username
+          objectType: secret
+        - |
+          objectName: application-insights-connection-string
+          objectType: secret
+        - |
+          objectName: google-client-id
+          objectType: secret
+        - |
+          objectName: google-client-secret
+          objectType: secret
+        - |
+          objectName: azure-openai-api-key
+          objectType: secret
+        - |
+          objectName: service-bus-connection-string
+          objectType: secret
+  secretObjects:
+    - secretName: gmail-service-secrets
+      type: Opaque
+      data:
+        - objectName: redis-access-key
+          key: REDIS_PASSWORD
+        - objectName: jwt-secret
+          key: JWT_SECRET
+        - objectName: encryption-key
+          key: ENCRYPTION_KEY
+        - objectName: postgres-host
+          key: DB_HOST
+        - objectName: postgres-db-name
+          key: DB_NAME
+        - objectName: postgres-admin-username
+          key: DB_USER
+        - objectName: application-insights-connection-string
+          key: APPLICATIONINSIGHTS_CONNECTION_STRING
+        - objectName: google-client-id
+          key: GOOGLE_CLIENT_ID
+        - objectName: google-client-secret
+          key: GOOGLE_CLIENT_SECRET
+        - objectName: azure-openai-api-key
+          key: AZURE_OPENAI_API_KEY
+        - objectName: service-bus-connection-string
+          key: SERVICE_BUS_CONNECTION_STRING
+---
+# Source: aeroinbox/charts/shared/templates/secretproviderclass.yaml
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: ai-secret-provider
+  namespace: aeroinbox
+spec:
+  provider: azure
+  parameters:
+    keyvaultName: "kv-aeroinbox-prod-f6e290"
+    tenantId: "ea3249a3-251c-42d6-96a8-15bb78609c9f"
+    usePodIdentity: "false"
+    useVMManagedIdentity: "false"
+    clientID: "75b81433-0bb0-44fa-ac85-164ba788156b"
+    objects: |
+      array:
+        - |
+          objectName: redis-access-key
+          objectType: secret
+        - |
+          objectName: jwt-secret
+          objectType: secret
+        - |
+          objectName: encryption-key
+          objectType: secret
+        - |
+          objectName: postgres-host
+          objectType: secret
+        - |
+          objectName: postgres-db-name
+          objectType: secret
+        - |
+          objectName: postgres-admin-username
+          objectType: secret
+        - |
+          objectName: application-insights-connection-string
+          objectType: secret
+        - |
+          objectName: google-client-id
+          objectType: secret
+        - |
+          objectName: google-client-secret
+          objectType: secret
+        - |
+          objectName: azure-openai-api-key
+          objectType: secret
+        - |
+          objectName: service-bus-connection-string
+          objectType: secret
+  secretObjects:
+    - secretName: ai-service-secrets
+      type: Opaque
+      data:
+        - objectName: redis-access-key
+          key: REDIS_PASSWORD
+        - objectName: jwt-secret
+          key: JWT_SECRET
+        - objectName: encryption-key
+          key: ENCRYPTION_KEY
+        - objectName: postgres-host
+          key: DB_HOST
+        - objectName: postgres-db-name
+          key: DB_NAME
+        - objectName: postgres-admin-username
+          key: DB_USER
+        - objectName: application-insights-connection-string
+          key: APPLICATIONINSIGHTS_CONNECTION_STRING
+        - objectName: google-client-id
+          key: GOOGLE_CLIENT_ID
+        - objectName: google-client-secret
+          key: GOOGLE_CLIENT_SECRET
+        - objectName: azure-openai-api-key
+          key: AZURE_OPENAI_API_KEY
+        - objectName: service-bus-connection-string
+          key: SERVICE_BUS_CONNECTION_STRING
+---
+# Source: aeroinbox/charts/shared/templates/secretproviderclass.yaml
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: rule-engine-secret-provider
+  namespace: aeroinbox
+spec:
+  provider: azure
+  parameters:
+    keyvaultName: "kv-aeroinbox-prod-f6e290"
+    tenantId: "ea3249a3-251c-42d6-96a8-15bb78609c9f"
+    usePodIdentity: "false"
+    useVMManagedIdentity: "false"
+    clientID: "326f5f81-feb5-42f0-b0e9-3666a0081ab9"
+    objects: |
+      array:
+        - |
+          objectName: redis-access-key
+          objectType: secret
+        - |
+          objectName: jwt-secret
+          objectType: secret
+        - |
+          objectName: encryption-key
+          objectType: secret
+        - |
+          objectName: postgres-host
+          objectType: secret
+        - |
+          objectName: postgres-db-name
+          objectType: secret
+        - |
+          objectName: postgres-admin-username
+          objectType: secret
+        - |
+          objectName: application-insights-connection-string
+          objectType: secret
+        - |
+          objectName: google-client-id
+          objectType: secret
+        - |
+          objectName: google-client-secret
+          objectType: secret
+        - |
+          objectName: azure-openai-api-key
+          objectType: secret
+        - |
+          objectName: service-bus-connection-string
+          objectType: secret
+  secretObjects:
+    - secretName: rule-engine-secrets
+      type: Opaque
+      data:
+        - objectName: redis-access-key
+          key: REDIS_PASSWORD
+        - objectName: jwt-secret
+          key: JWT_SECRET
+        - objectName: encryption-key
+          key: ENCRYPTION_KEY
+        - objectName: postgres-host
+          key: DB_HOST
+        - objectName: postgres-db-name
+          key: DB_NAME
+        - objectName: postgres-admin-username
+          key: DB_USER
+        - objectName: application-insights-connection-string
+          key: APPLICATIONINSIGHTS_CONNECTION_STRING
+        - objectName: google-client-id
+          key: GOOGLE_CLIENT_ID
+        - objectName: google-client-secret
+          key: GOOGLE_CLIENT_SECRET
+        - objectName: azure-openai-api-key
+          key: AZURE_OPENAI_API_KEY
+        - objectName: service-bus-connection-string
+          key: SERVICE_BUS_CONNECTION_STRING
+---
+# Source: aeroinbox/charts/shared/templates/secretproviderclass.yaml
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: meeting-secret-provider
+  namespace: aeroinbox
+spec:
+  provider: azure
+  parameters:
+    keyvaultName: "kv-aeroinbox-prod-f6e290"
+    tenantId: "ea3249a3-251c-42d6-96a8-15bb78609c9f"
+    usePodIdentity: "false"
+    useVMManagedIdentity: "false"
+    clientID: "d9194bc3-51b7-43f4-b7d3-711f1869c075"
+    objects: |
+      array:
+        - |
+          objectName: redis-access-key
+          objectType: secret
+        - |
+          objectName: jwt-secret
+          objectType: secret
+        - |
+          objectName: encryption-key
+          objectType: secret
+        - |
+          objectName: postgres-host
+          objectType: secret
+        - |
+          objectName: postgres-db-name
+          objectType: secret
+        - |
+          objectName: postgres-admin-username
+          objectType: secret
+        - |
+          objectName: application-insights-connection-string
+          objectType: secret
+        - |
+          objectName: google-client-id
+          objectType: secret
+        - |
+          objectName: google-client-secret
+          objectType: secret
+        - |
+          objectName: azure-openai-api-key
+          objectType: secret
+        - |
+          objectName: service-bus-connection-string
+          objectType: secret
+  secretObjects:
+    - secretName: meeting-service-secrets
+      type: Opaque
+      data:
+        - objectName: redis-access-key
+          key: REDIS_PASSWORD
+        - objectName: jwt-secret
+          key: JWT_SECRET
+        - objectName: encryption-key
+          key: ENCRYPTION_KEY
+        - objectName: postgres-host
+          key: DB_HOST
+        - objectName: postgres-db-name
+          key: DB_NAME
+        - objectName: postgres-admin-username
+          key: DB_USER
+        - objectName: application-insights-connection-string
+          key: APPLICATIONINSIGHTS_CONNECTION_STRING
+        - objectName: google-client-id
+          key: GOOGLE_CLIENT_ID
+        - objectName: google-client-secret
+          key: GOOGLE_CLIENT_SECRET
+        - objectName: azure-openai-api-key
+          key: AZURE_OPENAI_API_KEY
+        - objectName: service-bus-connection-string
+          key: SERVICE_BUS_CONNECTION_STRING
+
+---
+# Source: aeroinbox/charts/meeting-service/templates/keda-scaler.yaml
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: aeroinbox-meeting-service-auth
+  namespace: aeroinbox
+  labels:
+    app.kubernetes.io/name: meeting-service
+    app.kubernetes.io/part-of: aeroinbox
+    app.kubernetes.io/managed-by: Helm
+spec:
+  podIdentity:
+    provider: azure-workload
