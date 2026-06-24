@@ -5,6 +5,17 @@ global:
   environment: production
   tenantId: ea3249a3-251c-42d6-96a8-15bb78609c9f
   keyVaultName: kv-aeroinbox-prod-f6e290
+  workloadIdentities:
+    api:
+      clientId: 5f138b29-32bf-49af-9460-0a70f0f03a5a
+    gmail:
+      clientId: 773604a5-ec45-4e43-856d-866d29d2431e
+    ai:
+      clientId: 75b81433-0bb0-44fa-ac85-164ba788156b
+    ruleEngine:
+      clientId: 326f5f81-feb5-42f0-b0e9-3666a0081ab9
+    meeting:
+      clientId: d9194bc3-51b7-43f4-b7d3-711f1869c075
 
 api-service:
   image:

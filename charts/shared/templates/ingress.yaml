@@ -1,30 +1,30 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: aeroinbox-ingress
-  namespace: aeroinbox
+  name: {{ .Release.Name }}-ingress
+  namespace: {{ .Values.global.namespace | default .Release.Namespace }}
   annotations:
     appgw.ingress.kubernetes.io/use-private-ip: "false"
 spec:
   ingressClassName: azure-application-gateway
   rules:
-  - host: aeroinbox.qzz.io
+  - host: {{ .Values.global.ingressHost | default "aeroinbox.qzz.io" }}
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: aeroinbox-frontend
+            name: {{ .Release.Name }}-frontend
             port:
               number: 80
-  - host: api.aeroinbox.qzz.io
+  - host: {{ .Values.global.apiIngressHost | default "api.aeroinbox.qzz.io" }}
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: aeroinbox-api-service
+            name: {{ .Release.Name }}-api-service
             port:
               number: 8000

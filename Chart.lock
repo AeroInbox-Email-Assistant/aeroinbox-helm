@@ -17,5 +17,8 @@ dependencies:
 - name: frontend
   repository: file://charts/frontend
   version: 1.0.0
-digest: sha256:ddf65e792ade5efbefdbcdf630dceb3cbacbea5a624997bed52f3823cca26587
-generated: "2026-06-22T19:47:24.8044308+05:30"
+- name: shared
+  repository: file://charts/shared
+  version: 1.0.0
+digest: sha256:f60bcff53f0350766ef146027fad30041fd0c0f4c1256357d39ae0ca5d996f74
+generated: "2026-06-24T20:46:49.9373752+05:30"

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: aeroinbox-config
-  namespace: aeroinbox
+  namespace: {{ .Values.global.namespace | default .Release.Namespace }}
 data:
   REDIS_HOST: redis-aeroinbox-prod.centralindia.redis.azure.net
   REDIS_PORT: "10000"
@@ -10,16 +10,16 @@ data:
   SERVICE_BUS_NAMESPACE: sb-aeroinbox-prod.servicebus.windows.net
   SERVICE_BUS_QUEUE_NAME: meeting-reminders
   POSTGRES_PORT: "5432"
-  AZURE_TENANT_ID: ea3249a3-251c-42d6-96a8-15bb78609c9f
-  KEYVAULT_NAME: kv-aeroinbox-prod-f6e290
-  AZURE_KEYVAULT_URL: https://kv-aeroinbox-prod-f6e290.vault.azure.net/
-  AZURE_KEY_VAULT_URI: https://kv-aeroinbox-prod-f6e290.vault.azure.net/
+  AZURE_TENANT_ID: {{ .Values.global.tenantId | quote }}
+  KEYVAULT_NAME: {{ .Values.global.keyVaultName | quote }}
+  AZURE_KEYVAULT_URL: "https://{{ .Values.global.keyVaultName }}.vault.azure.net/"
+  AZURE_KEY_VAULT_URI: "https://{{ .Values.global.keyVaultName }}.vault.azure.net/"
   AZURE_OPENAI_ENDPOINT: https://aeroinbox-ai-resource.cognitiveservices.azure.com/
   AZURE_OPENAI_DEPLOYMENT_NAME: gpt-4.1-mini
   DB_AUTH_METHOD: "entra"
   APPINSIGHTS_ENABLED: "true"
   LOG_LEVEL: INFO
-  ENVIRONMENT: production
+  ENVIRONMENT: {{ .Values.global.environment | default "production" | quote }}
   FRONTEND_URL: https://aeroinbox.qzz.io
   GOOGLE_REDIRECT_URI: https://api.aeroinbox.qzz.io/auth/callback
   GMAIL_SERVICE_URL: http://aeroinbox-gmail-service:8000
