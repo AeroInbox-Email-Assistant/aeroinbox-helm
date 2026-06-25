@@ -3,19 +3,19 @@ global:
   imagePrefix: aeroinbox
   namespace: production
   environment: production
-  tenantId: ea3249a3-251c-42d6-96a8-15bb78609c9f
-  keyVaultName: kv-aeroinbox-prod-f6e290
+  tenantId: d8537334-bc24-4daf-95a8-bf4c9fb14394
+  keyVaultName: kv-aeroinbox-prod-27a269
   workloadIdentities:
     api:
-      clientId: 5f138b29-32bf-49af-9460-0a70f0f03a5a
+      clientId: 373d7f0b-3bb0-4c72-8981-cbf67858449a
     gmail:
-      clientId: 773604a5-ec45-4e43-856d-866d29d2431e
+      clientId: 64f247e1-30b4-459b-a0a2-0508a0550257
     ai:
-      clientId: 75b81433-0bb0-44fa-ac85-164ba788156b
+      clientId: 25f4a95e-d7d4-4873-ade6-5395bc875b34
     ruleEngine:
-      clientId: 326f5f81-feb5-42f0-b0e9-3666a0081ab9
+      clientId: fb5d5ac6-24f2-44e5-89c6-10bcd0744ea7
     meeting:
-      clientId: d9194bc3-51b7-43f4-b7d3-711f1869c075
+      clientId: 37a06440-8323-47d2-961a-f0f56c35e00b
 
 api-service:
   image:
