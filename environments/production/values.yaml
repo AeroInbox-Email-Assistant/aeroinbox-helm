@@ -1,6 +1,5 @@
 global:
   redisHost: redis-aeroinbox-prod.indonesiacentral.redis.azure.net
-
 api-service:
   image:
     tag: 281468c0909c9d76b119998eaa7958dfd92c6423
