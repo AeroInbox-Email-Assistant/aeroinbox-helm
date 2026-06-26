@@ -8,8 +8,10 @@ metadata:
     app.kubernetes.io/part-of: aeroinbox
     app.kubernetes.io/managed-by: Helm
 spec:
-  podIdentity:
-    provider: azure-workload
+  secretTargetRef:
+  - parameter: connection
+    name: meeting-service-secrets
+    key: SERVICE_BUS_CONNECTION_STRING
 ---
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
