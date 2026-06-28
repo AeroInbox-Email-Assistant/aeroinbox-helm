@@ -4,7 +4,7 @@ global:
   namespace: production
   environment: production
   tenantId: d8537334-bc24-4daf-95a8-bf4c9fb14394
-  keyVaultName: kv-aeroinbox-prod-6dc1a9
+  keyVaultName: kv-aeroinbox-prod-881f9a
   redisHost: redis-aeroinbox-prod.indonesiacentral.redis.azure.net
   workloadIdentities:
     api:
