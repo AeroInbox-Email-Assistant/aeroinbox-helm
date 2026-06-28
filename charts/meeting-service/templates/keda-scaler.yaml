@@ -27,8 +27,8 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: {{ .Release.Name }}-{{ .Chart.Name }}
-  minReplicaCount: 1
-  maxReplicaCount: 10
+  minReplicaCount: {{ .Values.autoscaling.minReplicas | default 1 }}
+  maxReplicaCount: {{ .Values.autoscaling.maxReplicas | default 2 }}
   triggers:
   - type: azure-servicebus
     metadata:

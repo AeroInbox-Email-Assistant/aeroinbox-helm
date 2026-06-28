@@ -107,6 +107,9 @@ meeting-service:
     name: meeting-sa
   service:
     port: 8000
+  autoscaling:
+    minReplicas: 1
+    maxReplicas: 2
 
 frontend:
   image:
