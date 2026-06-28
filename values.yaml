@@ -8,15 +8,15 @@ global:
   redisHost: redis-aeroinbox-prod.indonesiacentral.redis.azure.net
   workloadIdentities:
     api:
-      clientId: 3be8b000-da5b-4c42-ad18-ec30e3dd1fb5
+      clientId: 9a0c3b24-68e7-4a51-a481-5df236998cc0
     gmail:
-      clientId: 9eed5421-f9de-4d8d-949a-7db28015c8e6
+      clientId: 18f1165b-a27b-4569-9a71-14a03ce8c0d3
     ai:
-      clientId: fe524b15-088f-44f5-ade0-d1cd3a6c16cc
+      clientId: e5c5321e-19c0-4a0b-902b-8d5d52672743
     ruleEngine:
-      clientId: 9fed4f03-f70c-4ccb-83b0-c56c7549bada
+      clientId: df5b871c-bc82-4f09-9c3b-7211c4580d6e
     meeting:
-      clientId: 7f1b6039-b227-4bd0-81e8-6345b0ee4e4b
+      clientId: ca59e226-82f7-44b5-88a4-92635e4681f8
 
 api-service:
   image:
