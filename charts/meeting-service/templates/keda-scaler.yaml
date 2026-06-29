@@ -33,7 +33,6 @@ spec:
   - type: azure-servicebus
     metadata:
       queueName: meeting-reminders
-      namespace: sb-aeroinbox-prod
       messageCount: "5"
     authenticationRef:
       name: {{ .Release.Name }}-{{ .Chart.Name }}-auth
